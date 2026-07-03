@@ -1,0 +1,42 @@
+# Output files
+/output/*.json
+/output/*.txt
+/output/*.md
+/output/*.pdf
+/output/*.html
+/output/*.wav
+/output/temp_*.*
+/output/test_*.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Database (keep structure but ignore data)
+/output/meeting_history.db
+
+# Recordings (user generated)
+/recordings/
+
+# OS
+.DS_Store
+Thumbs.db
