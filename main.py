@@ -1,10 +1,17 @@
 """
-main.py -- Punto de entrada de Meeting Transcriber App.
+main.py — Punto de entrada de Meeting Transcriber App.
 Versión async para Flet 0.85 con page.run_task().
+
+Para Windows con ventana gráfica:
+    uv run python main.py
+
+Para servidor web (acceso desde navegador):
+    uv run python main.py --web
 """
 
 import flet as ft
 from ui.app_fixed import main_app
+import argparse
 
 
 async def main(page):
@@ -23,4 +30,13 @@ async def main(page):
 
 
 if __name__ == "__main__":
-    ft.run(main=main)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--web", action="store_true", help="Run as web app")
+    args = parser.parse_args()
+
+    if args.web:
+        # Servidor web - accesible desde http://localhost:8000
+        ft.run(main=main, host="0.0.0.0", port=8000)
+    else:
+        # App de escritorio
+        ft.run(main=main)
