@@ -1,12 +1,13 @@
 """
 main.py -- Punto de entrada de Meeting Transcriber App.
+Versión async para Flet 0.85 con page.run_task().
 """
 
 import flet as ft
-from ui.app import main_app
+from ui.app_fixed import main_app
 
 
-def main(page):
+async def main(page):
     page.title = "Meeting Transcriber"
     page.theme_mode = ft.ThemeMode.DARK
     page.padding = 0
@@ -18,8 +19,8 @@ def main(page):
     page.bgcolor = "#1a1a2e"
     page.theme = ft.Theme(color_scheme_seed=ft.Colors.DEEP_PURPLE)
 
-    main_app(page)
+    await main_app(page)
 
 
 if __name__ == "__main__":
-    ft.app(target=main)
+    ft.run(main=main)

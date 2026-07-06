@@ -1,0 +1,18 @@
+TRANSCRIPCIONES DE AUDIOS DE WHATSAPP (CORTOS)
+==================================================
+
+Archivo: WhatsApp Ptt 2026-07-01 at 3.35.00 PM.ogg
+Status: ERROR
+Detalle: [ERROR EN TRANSCRIPCIÓN: usage: transcribe.py [-h] {local,api,detect-lang} ...
+transcribe.py: error: unrecognized arguments: ]
+--------------------------------------------------
+Archivo: WhatsApp Ptt 2026-07-01 at 3.23.59 PM.ogg
+Status: ERROR
+Detalle: [ERROR EN TRANSCRIPCIÓN: usage: transcribe.py [-h] {local,api,detect-lang} ...
+transcribe.py: error: unrecognized arguments: ]
+--------------------------------------------------
+Archivo: WhatsApp Ptt 2026-07-01 at 3.20.05 PM.ogg
+Status: ERROR
+Detalle: [ERROR EN TRANSCRIPCIÓN: usage: transcribe.py [-h] {local,api,detect-lang} ...
+transcribe.py: error: unrecognized arguments: ]
+--------------------------------------------------
