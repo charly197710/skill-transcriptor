@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-SKILL_DIR = Path(r"C:\Users\WIN10\.gemini\config\skills\translator\scripts")
+SKILL_DIR = Path(r"C:\Users\WIN10\MeetingApp\scripts")
 TRANSLATE_SCRIPT = SKILL_DIR / "translate.py"
 
 

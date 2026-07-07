@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-SKILL_DIR = Path(r"C:\Users\WIN10\.gemini\config\skills\meeting-transcriber\scripts")
+SKILL_DIR = Path(r"C:\Users\WIN10\MeetingApp\scripts")
 SUMMARY_SCRIPT = SKILL_DIR / "summary.py"
 MINDMAP_SCRIPT = SKILL_DIR / "mindmap.py"
 
