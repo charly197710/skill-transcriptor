@@ -28,11 +28,14 @@ uv pip install flet sounddevice soundfile faster-whisper fpdf2
 
 ### App de escritorio
 ```bash
-# Ejecutar con uv
 uv run python main.py
-
-# O usar el script batch
 run.bat
+```
+
+### App web (para acceso en la nube)
+```bash
+uv run python main.py --web
+# Abre http://localhost:8000 en tu navegador
 ```
 
 ### Línea de comandos
