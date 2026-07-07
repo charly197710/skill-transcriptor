@@ -21,15 +21,27 @@ ALL_EXT = AUDIO_EXT | VIDEO_EXT
 CHUNK_DURATION = 30  # segundos por segmento
 
 def clean_transcript(text):
-    """Eliminar palabras repetidas consecutivas y normalizar espacios."""
+    """Eliminar repeticiones de frases/palabras como 'a tu, a tu, a tu'."""
+    if not text:
+        return text
     import re
     
-    # Eliminar repeticiones como "a tu, a tu, a tu" o "mmm, mmm, mmm"
-    # Patrón: palabra repetida con coma y espacio
-    cleaned = re.sub(r"\b(\w+),\s*\1(?:,\s*\1)*\b", r"\1", text)
+    # Eliminar repeticiones separadas por comas: "a tu, a tu, a tu" -> "a tu"
+    parts = text.split(", ")
+    cleaned_parts = []
+    for part in parts:
+        part_stripped = part.strip()
+        if cleaned_parts and cleaned_parts[-1] == part_stripped:
+            continue
+        cleaned_parts.append(part)
+    
+    # Volver a unir
+    cleaned = ", ".join(cleaned_parts)
+    
+    # Eliminar repeticiones simples sin coma: "mmm mmm mmm" -> "mmm"
     cleaned = re.sub(r"\b(\w+)\s+\1\b", r"\1", cleaned)
     
-    # Normalizar espacios múltiples a uno
+    # Normalizar espacios múltiples
     cleaned = re.sub(r"\s{2,}", " ", cleaned)
     
     return cleaned.strip()
