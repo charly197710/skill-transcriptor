@@ -2,11 +2,11 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['main_standalone.py'],
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=['core.analyzer', 'core.transcriber', 'core.summarizer', 'core.translator'],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
