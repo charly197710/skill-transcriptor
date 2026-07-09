@@ -32,8 +32,11 @@ def generate_txt(analysis: dict, lang: str = "es") -> str:
     lines.append("")
 
     # Resumen ejecutivo
-    lines.append("--- RESUMEN EJECUTIVO ---")
-    lines.append(analysis.get("resumen_ejecutivo", "No disponible"))
+    lines.append("--- IDEA PRINCIPAL ---")
+    lines.append("  " + analysis.get("idea_principal", ""))
+    lines.append("")
+    lines.append("--- NOTA PULIDA ---")
+    lines.append(analysis.get("nota_pulida", analysis.get("resumen_ejecutivo", "No disponible")))
     lines.append("")
 
     # Puntos clave
@@ -177,7 +180,7 @@ def generate_pdf(analysis: dict, output_path: str, include_transcription: bool =
     pdf.set_font("Helvetica", "B", 14)
     pdf.cell(0, 10, "Resumen Ejecutivo", new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 11)
-    pdf.multi_cell(0, 6, analysis.get("resumen_ejecutivo", "No disponible"))
+    pdf.multi_cell(0, 6, analysis.get("nota_pulida", analysis.get("resumen_ejecutivo", "No disponible")))
     pdf.ln(5)
 
     # Puntos clave
