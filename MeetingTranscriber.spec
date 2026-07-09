@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('C:\\Users\\WIN10\\MeetingApp\\scripts', 'scripts'), ('C:\\Users\\WIN10\\MeetingApp\\core', 'core'), ('C:\\Users\\WIN10\\MeetingApp\\database', 'database')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
