@@ -95,8 +95,10 @@ async def main_app(page):
             state["current_analysis"] = result
 
             lines = []
-            if result.get("resumen_ejecutivo"):
-                lines.append(f"RESUMEN EJECUTIVO:\n{result['resumen_ejecutivo']}")
+            if result.get("idea_principal"):
+                lines.append(f"IDEA PRINCIPAL:\n{result['idea_principal']}")
+            if result.get("nota_pulida"):
+                lines.append(f"\nNOTA PULIDA:\n{result['nota_pulida']}")
             if result.get("puntos_clave"):
                 lines.append("\nPUNTOS CLAVE:")
                 for i, p in enumerate(result["puntos_clave"], 1):
