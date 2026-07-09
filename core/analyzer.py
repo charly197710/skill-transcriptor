@@ -1,68 +1,59 @@
-"""
-core/analyzer.py — Wrapper del script analyze.py para usar desde la app.
-"""
-
-import json
-import subprocess
+#!/usr/bin/env python3
+core/analyzer.py — Analizador de transcripciones con estilo de redactor.
+'''
+import re
 from pathlib import Path
 
-
-SKILL_DIR = Path(r"C:\Users\WIN10\.gemini\config\skills\meeting-transcriber\scripts")
-ANALYZE_SCRIPT = SKILL_DIR / "analyze.py"
-
-
 class Analyzer:
-    """Analizador de transcripciones."""
-
-    def analyze(self, transcription_input: str, output_path: str = None) -> dict:
-        """
-        Analizar una transcripción (texto o JSON de transcripción).
-
-        Args:
-            transcription_input: Texto de transcripción o ruta a archivo
-            output_path: Ruta de salida del análisis (opcional)
-
-        Returns:
-            dict con keys: resumen_ejecutivo, puntos_clave, decisiones, action_items,
-                           participantes, temas, sentimiento
-        """
+    def analyze(self, transcription_input, output_path=None):
         input_path = Path(transcription_input)
-
         if input_path.exists():
-            file_to_analyze = str(input_path)
+            text = input_path.read_text(encoding="utf-8")
+            try:
+                import json
+                data = json.loads(text)
+                text = data.get("text", "")
+            except:
+                pass
         else:
-            # Es texto directo, guardar temporal
-            tmp = Path(r"C:\Users\WIN10\MeetingApp\output") / "_temp_transcripcion.txt"
-            tmp.write_text(transcription_input, encoding="utf-8")
-            file_to_analyze = str(tmp)
+            text = transcription_input
+        result = self._generate_pro_analysis(text)
+        if output_path:
+            Path(output_path).write_text(json.dumps(result, ensure_ascii=False, indent=2))
+        return result
 
-        if not output_path:
-            stem = Path(file_to_analyze).stem
-            output_path = str(Path(r"C:\Users\WIN10\MeetingApp\output") / f"{stem}_analisis.json")
+    def _generate_pro_analysis(self, text):
+        sentences = [s.strip() for s in re.split(r"[.!?]+", text) if s.strip()]
+        return {
+            "idea_principal": sentences[0] if sentences else "No identificado",
+            "nota_pulida": self._generate_pulida(sentences),
+            "puntos_clave": self._extract_key_points(sentences),
+            "decisiones": self._extract_decisions(sentences),
+            "action_items": self._extract_actions(sentences),
+        }
 
-        cmd = [
-            "uv", "run", "python", str(ANALYZE_SCRIPT),
-            "full",
-            "--input", file_to_analyze,
-            "--output", output_path,
-        ]
+    def _generate_pulida(self, sentences):
+        key = [s.capitalize() for s in sentences[:5] if len(s) > 20]
+        return " ".join(key) + "." if key else "Transcripción procesada."
 
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=120,
-        )
+    def _extract_key_points(self, sentences):
+        kw = ["importante", "clave", "servicio", "producto", "precio", "cliente"]
+        pts = []
+        for s in sentences:
+            if any(k.lower() in s.lower() for k in kw) and len(s) > 30:
+                pts.append(s.strip())
+        return pts[:4] if pts else [sentences[0] if sentences else "N/A"]
 
-        if result.returncode != 0:
-            error = result.stderr or result.stdout or "Error desconocido"
-            raise RuntimeError(f"Error en analisis: {error[-500:]}")
+    def _extract_decisions(self, sentences):
+        kw = ["decisión", "vamos a", "vale", "quiero"]
+        return [s.strip() for s in sentences if any(k.lower() in s.lower() for k in kw)][:3]
 
-        # Cargar resultado
-        if Path(output_path).exists():
-            with open(output_path, "r", encoding="utf-8") as f:
-                return json.load(f)
-
-        raise RuntimeError("No se genero el archivo de analisis.")
+    def _extract_actions(self, sentences):
+        kw = ["falta", "queda", "hay que", "debemos"]
+        acts = []
+        for s in sentences:
+            for k in kw:
+                if k.lower() in s.lower():
+                    acts.append(s.strip())
+                    break
+        return acts[:3]
